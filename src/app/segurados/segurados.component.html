@@ -1,0 +1,25 @@
+<mat-table [dataSource]="segurados" class="mat-elevation-z8 demo-table">
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef>Nome</mat-header-cell>
+    <mat-cell *matCellDef="let segurado">{{ segurado.name }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="cpf_cnpj">
+    <mat-header-cell *matHeaderCellDef>CPF/CNPJ</mat-header-cell>
+    <mat-cell *matCellDef="let segurado">{{ segurado.cpf_cnpj }}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</mat-table>
+<mat-paginator
+  [length]="lenght"
+  [pageSize]="pageSize"
+  showFirstLastButtons
+  [pageIndex]="pageIndex"
+  (page)="getAll($event)"
+  [pageSizeOptions]="[5, 10, 15]"
+  aria-label="Select page"
+>
+</mat-paginator>
