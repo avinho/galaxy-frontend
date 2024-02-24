@@ -19,15 +19,12 @@ export class SeguradosComponent {
   displayedColumns: string[] = ['name', 'cpf_cnpj'];
   segurados: any;
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-
   pageIndex = 0;
   pageSize = 10;
   lenght = 0;
 
   constructor(private service: SeguradoService) {
     this.getAll();
-    console.log(this.lenght);
   }
 
   getAll(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10 }) {
@@ -35,7 +32,6 @@ export class SeguradosComponent {
       .list(pageEvent.pageIndex, pageEvent.pageSize)
       .subscribe((data) => {
         this.segurados = new MatTableDataSource(data.segurados);
-        this.segurados.paginator = this.paginator;
         this.pageIndex = pageEvent.pageIndex;
         this.pageSize = pageEvent.pageSize;
         this.lenght = data.totalElements;
