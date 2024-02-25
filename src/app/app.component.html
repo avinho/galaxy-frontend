@@ -1,21 +1,4 @@
-<h1>Hello</h1>
-<br />
-
+<mat-toolbar color="primary">
+  <span>Galaxy</span>
+</mat-toolbar>
 <router-outlet></router-outlet>
-
-<hr />
-
-<form [formGroup]="form">
-  <label for="name">Nome</label><br />
-  <input id="name " type="text" placeholder="name" formControlName="name" />
-  <br /><br />
-  <label for="cpf_cnpj">CPF/CNPJ</label><br />
-  <input
-    id="cpf_cnpj"
-    type="text"
-    placeholder="cpf cnpj"
-    formControlName="cpf_cnpj"
-  />
-  <br /><br />
-  <button type="button" (click)="onSubmit()">Cadastrar</button>
-</form>

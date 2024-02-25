@@ -1,25 +1,58 @@
-<mat-table [dataSource]="segurados" class="mat-elevation-z8 demo-table">
-  <!-- Name Column -->
-  <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef>Nome</mat-header-cell>
-    <mat-cell *matCellDef="let segurado">{{ segurado.name }}</mat-cell>
-  </ng-container>
+<mat-card>
+  <mat-toolbar color="primary">
+    <span>Segurados</span>
+  </mat-toolbar>
+  <mat-card-header>
+    <!--  -->
+  </mat-card-header>
+  <mat-card-content>
+    <mat-form-field>
+      <mat-label>Pesquisa</mat-label>
+      <input
+        matInput
+        type="text"
+        placeholder="Ex. Alvaro"
+        #input
+        (keyup)="applyFilter($event)"
+      />
+      @if (input.value) {
+      <button matSuffix mat-icon-button (click)="onFilter()">
+        <mat-icon>search</mat-icon>
+      </button>
+      }
+    </mat-form-field>
 
-  <ng-container matColumnDef="cpf_cnpj">
-    <mat-header-cell *matHeaderCellDef>CPF/CNPJ</mat-header-cell>
-    <mat-cell *matCellDef="let segurado">{{ segurado.cpf_cnpj }}</mat-cell>
-  </ng-container>
+    <mat-table [dataSource]="segurados" class="mat-elevation-z1">
+      <!-- Name Column -->
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef>id</mat-header-cell>
+        <mat-cell *matCellDef="let segurado">{{ segurado.id }}</mat-cell>
+      </ng-container>
 
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-</mat-table>
-<mat-paginator
-  [length]="lenght"
-  [pageSize]="pageSize"
-  showFirstLastButtons
-  [pageIndex]="pageIndex"
-  (page)="getAll($event)"
-  [pageSizeOptions]="[5, 10, 15]"
-  aria-label="Select page"
->
-</mat-paginator>
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Nome</mat-header-cell>
+        <mat-cell *matCellDef="let segurado">{{ segurado.name }}</mat-cell>
+      </ng-container>
+
+      <!-- CPF/CNPJ Column -->
+      <ng-container matColumnDef="cpf_cnpj">
+        <mat-header-cell *matHeaderCellDef>CPF/CNPJ</mat-header-cell>
+        <mat-cell *matCellDef="let segurado">{{ segurado.cpf_cnpj }}</mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+    <mat-paginator
+      [length]="lenght"
+      [pageSize]="pageSize"
+      showFirstLastButtons
+      [pageIndex]="pageIndex"
+      (page)="handlePageEvent($event)"
+      [pageSizeOptions]="pageSizeOptions"
+      aria-label="Select page"
+    >
+    </mat-paginator>
+  </mat-card-content>
+</mat-card>

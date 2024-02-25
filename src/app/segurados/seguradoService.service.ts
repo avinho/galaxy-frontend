@@ -12,12 +12,18 @@ export class SeguradoService {
   constructor(private httpClient: HttpClient) {}
 
   findAll() {
-    return this.httpClient.get<Segurado[]>(this.API);
+    return this.httpClient.get<Segurado[]>(`${this.API}/all`);
   }
 
   list(pageNumber: number, pageSize: number) {
     return this.httpClient.get<SeguradoPage>(this.API, {
       params: { pageNumber, pageSize },
+    });
+  }
+
+  findByName(name: string, pageNumber: number, pageSize: number) {
+    return this.httpClient.get<SeguradoPage>(`${this.API}/search`, {
+      params: { name, pageNumber, pageSize },
     });
   }
 
