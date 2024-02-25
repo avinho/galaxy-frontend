@@ -1,18 +1,17 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import {
-  MatPaginator,
   MatPaginatorIntl,
   MatPaginatorModule,
   PageEvent,
 } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { MyCustomPaginatorIntl } from '../../utils/myCustomPaginator';
 import { Segurado } from '../segurado';
 import { SeguradoService } from './seguradoService.service';
@@ -40,7 +39,7 @@ export class SeguradosComponent {
 
   pageIndex = 0;
   pageSize = 10;
-  lenght = 0;
+  length = 0;
   pageSizeOptions = [5, 10, 15];
   filterValue: string = '';
 
@@ -59,7 +58,7 @@ export class SeguradosComponent {
   handlePageEvent(
     pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10 }
   ) {
-    this.lenght = pageEvent.length;
+    this.length = pageEvent.length;
     this.pageIndex = pageEvent.pageIndex;
     this.pageSize = pageEvent.pageSize;
     this.filterValue != '' ? this.findByName(this.filterValue) : this.getData();
@@ -70,26 +69,29 @@ export class SeguradosComponent {
       .findByName(name, this.pageIndex, this.pageSize)
       .subscribe((data) => {
         this.segurados.data = data.segurados;
-        this.lenght = data.totalElements;
+        this.length = data.totalElements;
       });
   }
 
   getData() {
     this.service.list(this.pageIndex, this.pageSize).subscribe((data) => {
       this.segurados.data = data.segurados;
-      this.lenght = data.totalElements;
+      this.length = data.totalElements;
     });
   }
 
-  onFilter() {
+  applyFilter() {
     this.pageIndex = 0;
     this.findByName(this.filterValue);
   }
 
-  applyFilter(event: Event) {
+  filter(event: Event) {
     this.filterValue = (event.target as HTMLInputElement).value;
     this.segurados.filter = this.filterValue.trim().toLowerCase();
-    this.lenght = this.segurados.data.length;
+    this.length = this.segurados.data.length;
+    if (!this.filterValue) {
+      this.getData();
+    }
   }
 
   onSubmit() {

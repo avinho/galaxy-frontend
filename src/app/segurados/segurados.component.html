@@ -12,11 +12,12 @@
         matInput
         type="text"
         placeholder="Ex. Alvaro"
+        (keyup.enter)="applyFilter()"
         #input
-        (keyup)="applyFilter($event)"
+        (keyup)="filter($event)"
       />
       @if (input.value) {
-      <button matSuffix mat-icon-button (click)="onFilter()">
+      <button matSuffix mat-icon-button (click)="applyFilter()">
         <mat-icon>search</mat-icon>
       </button>
       }
@@ -45,7 +46,7 @@
       <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
     </mat-table>
     <mat-paginator
-      [length]="lenght"
+      [length]="length"
       [pageSize]="pageSize"
       showFirstLastButtons
       [pageIndex]="pageIndex"
