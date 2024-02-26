@@ -1,4 +1,29 @@
-<mat-toolbar color="primary">
-  <span>Galaxy</span>
+<mat-toolbar color="primary" class="toolbar">
+  <div class="example-spacer">
+    <button mat-icon-button (click)="drawer.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Galaxy</span>
+  </div>
+  <button mat-icon-button class="user-button">
+    <mat-icon>person</mat-icon>
+  </button>
 </mat-toolbar>
-<router-outlet></router-outlet>
+<mat-drawer-container class="sidenav-container" autosize>
+  <mat-drawer #drawer mode="side" opened class="sidenav">
+    <mat-nav-list>
+      @for (item of navlist; track item) {
+      <mat-list-item>
+        <mat-icon matListItemIcon style="margin-right: 15px">{{
+          item.icon
+        }}</mat-icon>
+        <a matListItemTitle>{{ item.name }}</a>
+      </mat-list-item>
+      }
+    </mat-nav-list>
+  </mat-drawer>
+
+  <mat-drawer-content class="sidenav-content">
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>

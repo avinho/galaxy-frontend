@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Segurado } from '../segurado';
-import { SeguradoPage } from '../SeguradoPage';
+import { first } from 'rxjs';
+import { SeguradoPage } from '../../utils/SeguradoPage';
+import { Segurado } from '../../utils/segurado';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +28,12 @@ export class SeguradoService {
     });
   }
 
+  delete(id: number) {
+    console.log(id);
+    return this.httpClient.delete(`${this.API}/${id}`);
+  }
+
   create(data: any) {
-    this.httpClient.post(this.API, data).subscribe();
+    this.httpClient.post(this.API, data).pipe(first());
   }
 }

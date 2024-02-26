@@ -9,7 +9,15 @@ mat-card {
   max-height: 600px;
 }
 
-.mat-mdc-form-field {
+.action-column-header {
+  justify-content: flex-end
+}
+
+.action-column {
+  justify-content: flex-end;
+}
+
+mat-form-field {
   font-size: 14px;
   width: 100%;
 }
@@ -18,3 +26,5 @@ mat-toolbar {
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 }
+
+
