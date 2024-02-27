@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule, RouterOutlet } from '@angular/router';
 import { Navlist } from '../utils/navList';
 
 @Component({
@@ -19,6 +19,7 @@ import { Navlist } from '../utils/navList';
     MatIconModule,
     MatButtonModule,
     MatListModule,
+    RouterModule,
   ],
 })
 export class AppComponent {
@@ -28,14 +29,17 @@ export class AppComponent {
     {
       icon: 'home',
       name: 'Home',
+      path: '/home',
     },
     {
       icon: 'groups',
       name: 'Segurados',
+      path: '/segurados',
     },
     {
       icon: 'description',
       name: 'Apólices',
+      path: '/apolices',
     },
   ];
 

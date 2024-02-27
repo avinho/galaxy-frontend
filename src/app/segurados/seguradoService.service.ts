@@ -17,9 +17,11 @@ export class SeguradoService {
   }
 
   list(pageNumber: number, pageSize: number) {
-    return this.httpClient.get<SeguradoPage>(this.API, {
-      params: { pageNumber, pageSize },
-    });
+    return this.httpClient
+      .get<SeguradoPage>(this.API, {
+        params: { pageNumber, pageSize },
+      })
+      .pipe(first());
   }
 
   findByName(name: string, pageNumber: number, pageSize: number) {
@@ -29,8 +31,7 @@ export class SeguradoService {
   }
 
   delete(id: number) {
-    console.log(id);
-    return this.httpClient.delete(`${this.API}/${id}`);
+    return this.httpClient.delete(`${this.API}/${id}`).pipe(first());
   }
 
   create(data: any) {

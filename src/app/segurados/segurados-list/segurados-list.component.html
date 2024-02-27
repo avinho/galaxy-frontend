@@ -1,0 +1,46 @@
+<mat-table [dataSource]="segurados" class="mat-elevation-z1">
+  <!-- Name Column -->
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef>id</mat-header-cell>
+    <mat-cell *matCellDef="let segurado">{{ segurado.id }}</mat-cell>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef>Nome</mat-header-cell>
+    <mat-cell *matCellDef="let segurado">{{ segurado.name }}</mat-cell>
+  </ng-container>
+
+  <!-- CPF/CNPJ Column -->
+  <ng-container matColumnDef="cpf_cnpj">
+    <mat-header-cell *matHeaderCellDef>CPF/CNPJ</mat-header-cell>
+    <mat-cell *matCellDef="let segurado">{{
+      format(segurado.cpf_cnpj)
+    }}</mat-cell>
+  </ng-container>
+
+  <!-- Actions Column -->
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef class="action-column-header">
+      <button
+        mat-raised-button
+        style="background-color: #4db355; color: white"
+        (click)="onAdd()"
+      >
+        <mat-icon>add</mat-icon>
+        Novo
+      </button></mat-header-cell
+    >
+    <mat-cell *matCellDef="let segurado" class="action-column">
+      <button mat-icon-button (click)="onEdit(segurado)">
+        <mat-icon color="primary">edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="onDelete(segurado.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</mat-table>

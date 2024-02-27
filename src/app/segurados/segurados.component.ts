@@ -5,6 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {
   MatPaginatorIntl,
   MatPaginatorModule,
@@ -12,16 +13,21 @@ import {
 } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { delay, of } from 'rxjs';
+import { Observable, delay, first, of, tap } from 'rxjs';
 import { MyCustomPaginatorIntl } from '../../utils/myCustomPaginator';
 import { Segurado } from '../../utils/segurado';
 import { SeguradoService } from './seguradoService.service';
+import { SeguradosListComponent } from './segurados-list/segurados-list.component';
+import { Router, ActivatedRoute } from '@angular/router';
+import { SeguradoPage } from '../../utils/SeguradoPage';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-segurados',
   standalone: true,
   imports: [
     MatTableModule,
+    CommonModule,
     MatButtonModule,
     MatPaginatorModule,
     MatCardModule,
@@ -29,6 +35,8 @@ import { SeguradoService } from './seguradoService.service';
     MatInputModule,
     MatToolbarModule,
     MatIconModule,
+    SeguradosListComponent,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './segurados.component.html',
   styleUrl: './segurados.component.scss',
@@ -36,7 +44,7 @@ import { SeguradoService } from './seguradoService.service';
 })
 export class SeguradosComponent {
   displayedColumns: string[] = ['id', 'name', 'cpf_cnpj', 'actions'];
-  segurados: MatTableDataSource<Segurado> = new MatTableDataSource();
+  segurados$: Observable<SeguradoPage> | null = null;
 
   pageIndex = 0;
   pageSize = 10;
@@ -50,10 +58,12 @@ export class SeguradosComponent {
   });
 
   constructor(
+    private router: Router,
+    private route: ActivatedRoute,
     private service: SeguradoService,
     private formBuilder: FormBuilder
   ) {
-    this.getData();
+    this.refresh();
   }
 
   handlePageEvent(
@@ -65,43 +75,23 @@ export class SeguradosComponent {
     this.refresh();
   }
 
-  format(value: string): string {
-    value = value.replace(/\D/g, '');
-
-    switch (value.length) {
-      case 11: {
-        return value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-      }
-      case 14: {
-        return value.replace(
-          /(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/,
-          '$1.$2.$3/$4-$5'
-        );
-      }
-      default: {
-        return value;
-      }
-    }
-  }
-
   refresh() {
     this.filterValue != '' ? this.findByName(this.filterValue) : this.getData();
   }
 
   findByName(name: string) {
-    this.service
+    this.segurados$ = this.service
       .findByName(name, this.pageIndex, this.pageSize)
-      .subscribe((data) => {
-        this.segurados.data = data.segurados;
-        this.length = data.totalElements;
-      });
+      .pipe(
+        first(),
+        tap((data) => (this.length = data.totalElements))
+      );
   }
 
   getData() {
-    this.service.list(this.pageIndex, this.pageSize).subscribe((data) => {
-      this.segurados.data = data.segurados;
-      this.length = data.totalElements;
-    });
+    this.segurados$ = this.service
+      .list(this.pageIndex, this.pageSize)
+      .pipe(tap((data) => (this.length = data.totalElements)));
   }
 
   applyFilter() {
@@ -109,13 +99,16 @@ export class SeguradosComponent {
     this.findByName(this.filterValue);
   }
 
-  filter(event: Event) {
-    this.filterValue = (event.target as HTMLInputElement).value;
-    this.segurados.filter = this.filterValue.trim().toLowerCase();
-    this.length = this.segurados.data.length;
-    if (!this.filterValue) {
-      this.getData();
-    }
+  filter(event: Event) {}
+
+  onAdd() {
+    console.log('onAdd()');
+    //this.router.navigate(['new'], { relativeTo: this.route });
+  }
+
+  onEdit(segurado: Segurado) {
+    console.log(segurado);
+    //this.router.navigate(['edit', segurado.id], { relativeTo: this.route });
   }
 
   onDelete(id: number) {
@@ -123,9 +116,5 @@ export class SeguradosComponent {
     of(this.service.delete(id))
       .pipe(delay(100))
       .subscribe(() => this.refresh());
-  }
-
-  onSubmit() {
-    this.service.create(this.form.value);
   }
 }

@@ -4,19 +4,6 @@ mat-card {
   text-align: center;
 }
 
-.mat-table {
-  overflow: auto;
-  max-height: 600px;
-}
-
-.action-column-header {
-  justify-content: flex-end
-}
-
-.action-column {
-  justify-content: flex-end;
-}
-
 mat-form-field {
   font-size: 14px;
   width: 100%;
@@ -25,6 +12,15 @@ mat-form-field {
 mat-toolbar {
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
+  height: 45px;
+}
+
+.loading-spinner {
+  padding: 25px;
+  background: rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 
