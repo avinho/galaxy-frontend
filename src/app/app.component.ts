@@ -41,6 +41,31 @@ export class AppComponent {
       name: 'Apólices',
       path: '/apolices',
     },
+    {
+      icon: 'car_crash',
+      name: 'Sinistros',
+      path: '/sinistros',
+    },
+    {
+      icon: 'payments',
+      name: 'Financeiro',
+      path: '/financeiro',
+    },
+    {
+      icon: 'query_stats',
+      name: 'Relatórios',
+      path: '/relatorios',
+    },
+    {
+      icon: 'assignment_ind',
+      name: 'Cadastros',
+      path: '/cadastros',
+    },
+    {
+      icon: 'settings',
+      name: 'Configurações',
+      path: '/configuracoes',
+    },
   ];
 
   constructor() {}
