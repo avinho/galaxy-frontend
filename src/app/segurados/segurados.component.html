@@ -12,7 +12,7 @@
         placeholder="Ex. Alvaro"
         (keyup.enter)="applyFilter()"
         #input
-        (keyup)="filter($event)"
+        (keyup)="onFilter($event)"
       />
       @if (input.value) {
       <button matSuffix mat-icon-button (click)="applyFilter()">
@@ -27,6 +27,7 @@
       (add)="onAdd()"
       (edit)="onEdit($event)"
       (remove)="onDelete($event)"
+      [filterValue]="filterValue"
     ></segurados-list>
     <mat-paginator
       [length]="length"

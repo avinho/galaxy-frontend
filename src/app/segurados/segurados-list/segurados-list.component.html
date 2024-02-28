@@ -1,19 +1,21 @@
 <mat-table [dataSource]="segurados" class="mat-elevation-z1">
   <!-- Name Column -->
   <ng-container matColumnDef="id">
-    <mat-header-cell *matHeaderCellDef>id</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header>id</mat-header-cell>
     <mat-cell *matCellDef="let segurado">{{ segurado.id }}</mat-cell>
   </ng-container>
 
   <!-- Name Column -->
   <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef>Nome</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
     <mat-cell *matCellDef="let segurado">{{ segurado.name }}</mat-cell>
   </ng-container>
 
   <!-- CPF/CNPJ Column -->
   <ng-container matColumnDef="cpf_cnpj">
-    <mat-header-cell *matHeaderCellDef>CPF/CNPJ</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header
+      >CPF/CNPJ</mat-header-cell
+    >
     <mat-cell *matCellDef="let segurado">{{
       format(segurado.cpf_cnpj)
     }}</mat-cell>

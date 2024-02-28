@@ -25,9 +25,11 @@ export class SeguradoService {
   }
 
   findByName(name: string, pageNumber: number, pageSize: number) {
-    return this.httpClient.get<SeguradoPage>(`${this.API}/search`, {
-      params: { name, pageNumber, pageSize },
-    });
+    return this.httpClient
+      .get<SeguradoPage>(`${this.API}/search`, {
+        params: { name, pageNumber, pageSize },
+      })
+      .pipe(first());
   }
 
   delete(id: number) {
