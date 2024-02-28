@@ -1,27 +1,26 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { FormBuilder, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {
   MatPaginatorIntl,
   MatPaginatorModule,
   PageEvent,
 } from '@angular/material/paginator';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Observable, delay, first, of, tap } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, first, tap } from 'rxjs';
+import { SeguradoPage } from '../../utils/SeguradoPage';
 import { MyCustomPaginatorIntl } from '../../utils/myCustomPaginator';
 import { Segurado } from '../../utils/segurado';
 import { SeguradoService } from './seguradoService.service';
 import { SeguradosListComponent } from './segurados-list/segurados-list.component';
-import { Router, ActivatedRoute } from '@angular/router';
-import { SeguradoPage } from '../../utils/SeguradoPage';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-segurados',
@@ -46,14 +45,13 @@ import { CommonModule } from '@angular/common';
 })
 export class SeguradosComponent {
   segurados$: Observable<SeguradoPage> | null = null;
-  @Output() eventoEnviarParaFilho = new EventEmitter(false);
 
   pageIndex = 0;
   pageSize = 10;
   length = 0;
   pageSizeOptions = [5, 10, 15];
 
-  filterValue: any = '';
+  filterValue: string = '';
 
   form = this.formBuilder.group({
     name: [''],

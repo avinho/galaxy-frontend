@@ -4,16 +4,18 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnInit,
   Output,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Segurado } from '../../../utils/segurado';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { DataSource } from '@angular/cdk/collections';
 
 @Component({
   selector: 'segurados-list',
@@ -28,23 +30,38 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
   templateUrl: './segurados-list.component.html',
   styleUrl: './segurados-list.component.scss',
 })
-export class SeguradosListComponent implements OnChanges {
-  @Input() segurados: Segurado[] = [];
+export class SeguradosListComponent
+  implements OnInit, OnChanges, AfterViewInit
+{
   readonly displayedColumns: string[] = ['id', 'name', 'cpf_cnpj', 'actions'];
+
+  @Input() segurados: Segurado[] = [];
+  dataSource: MatTableDataSource<Segurado> = new MatTableDataSource();
+  @Input() filterValue: string = '';
 
   @Output() add = new EventEmitter(false);
   @Output() edit = new EventEmitter(false);
   @Output() remove = new EventEmitter(false);
 
-  @Input() filterValue: string = '';
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor() {}
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+  ngOnInit(): void {
+    this.dataSource = new MatTableDataSource(this.segurados);
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filterValue']) {
-      console.log(this.filterValue);
+      this.dataSource.filter = this.filterValue;
 
-      //this.filter(this.filterValue);
+      if (this.dataSource.paginator) {
+        this.dataSource.paginator.firstPage();
+      }
     }
   }
 
@@ -67,18 +84,8 @@ export class SeguradosListComponent implements OnChanges {
     }
   }
 
-  /*   filter(data: string) {
-    this.segurados.filter = this.filterValue.trim().toLowerCase();
-
-  } */
-
-  receberValorDoPai(event: any) {
-    this.filterValue = event;
-  }
-
   onAdd() {
-    console.log(this.filterValue);
-    //this.add.emit(true);
+    this.add.emit(true);
   }
 
   onEdit(segurado: Segurado) {

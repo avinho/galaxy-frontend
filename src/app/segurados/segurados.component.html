@@ -29,16 +29,6 @@
       (remove)="onDelete($event)"
       [filterValue]="filterValue"
     ></segurados-list>
-    <mat-paginator
-      [length]="length"
-      [pageSize]="pageSize"
-      showFirstLastButtons
-      [pageIndex]="pageIndex"
-      (page)="handlePageEvent($event)"
-      [pageSizeOptions]="pageSizeOptions"
-      aria-label="Select page"
-    >
-    </mat-paginator>
   </mat-card-content>
   } @else {
   <div class="loading-spinner">
