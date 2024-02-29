@@ -1,6 +1,6 @@
 mat-card {
-  max-width: 80%;
-  margin: 2em auto;
+  max-width: 95%;
+  margin: 1em auto;
   text-align: center;
 }
 
@@ -12,7 +12,7 @@ mat-form-field {
 mat-toolbar {
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
-  height: 45px;
+  height: 10px;
 }
 
 .loading-spinner {
@@ -21,6 +21,27 @@ mat-toolbar {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.card-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 20px;
+  /* Space cards evenly */
+}
+
+.card {
+  /* Customize card width, margins, etc. */
+  width: 18rem;
+  height: 150px;
+}
+
+/* Optional: Add responsive styling for different screen sizes */
+@media (max-width: 768px) {
+  .card {
+    width: 100%;
+    /* Make cards stack on smaller screens */
+  }
 }
 
 

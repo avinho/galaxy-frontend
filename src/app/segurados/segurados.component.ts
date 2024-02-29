@@ -4,22 +4,19 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import {
-  MatPaginatorIntl,
-  MatPaginatorModule,
-  PageEvent,
-} from '@angular/material/paginator';
+
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import { SeguradoPage } from '../../utils/SeguradoPage';
-import { MyCustomPaginatorIntl } from '../../utils/myCustomPaginator';
 import { Segurado } from '../../utils/segurado';
 import { SeguradoService } from './seguradoService.service';
 import { SeguradosListComponent } from './segurados-list/segurados-list.component';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-segurados',
@@ -28,7 +25,6 @@ import { SeguradosListComponent } from './segurados-list/segurados-list.componen
     FormsModule,
     CommonModule,
     MatButtonModule,
-    MatPaginatorModule,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
@@ -36,17 +32,18 @@ import { SeguradosListComponent } from './segurados-list/segurados-list.componen
     MatIconModule,
     SeguradosListComponent,
     MatProgressSpinnerModule,
+    MatGridListModule,
   ],
   templateUrl: './segurados.component.html',
   styleUrl: './segurados.component.scss',
-  providers: [{ provide: MatPaginatorIntl, useClass: MyCustomPaginatorIntl }],
 })
 export class SeguradosComponent {
-  segurados$: Observable<SeguradoPage> | null = null;
+  segurados$: SeguradoPage | null = null;
 
   filterValue: string = '';
   pageIndex = 0;
   pageSize = 10;
+  length = 0;
 
   constructor(
     private router: Router,
@@ -59,28 +56,35 @@ export class SeguradosComponent {
   handlePageEvent(pageEvent: PageEvent) {
     this.pageIndex = pageEvent.pageIndex;
     this.pageSize = pageEvent.pageSize;
-    this.refresh(pageEvent);
+    this.refresh();
   }
 
-  refresh(pageEvent: PageEvent = { pageIndex: 0, pageSize: 10, length: 0 }) {
+  refresh() {
     this.filterValue != ''
-      ? this.findByName(this.filterValue, pageEvent)
-      : this.getData(pageEvent);
+      ? this.findByName(this.filterValue, this.pageIndex, this.pageSize)
+      : this.getData(this.pageIndex, this.pageSize);
   }
 
-  findByName(name: string, pageEvent: PageEvent) {
-    this.segurados$ = this.service.findByName(
-      name,
-      pageEvent.pageIndex,
-      pageEvent.pageSize
-    );
+  findByName(name: string, pageIndex: number, pageSize: number) {
+    this.service
+      .findByName(name, pageIndex, pageSize)
+      .pipe(
+        tap((data) => {
+          this.segurados$ = data;
+        })
+      )
+      .subscribe();
   }
 
-  getData(pageEvent: PageEvent) {
-    this.segurados$ = this.service.list(
-      pageEvent.pageIndex,
-      pageEvent.pageSize
-    );
+  getData(pageIndex: number, pageSize: number) {
+    this.service
+      .list(pageIndex, pageSize)
+      .pipe(
+        tap((data) => {
+          this.segurados$ = data;
+        })
+      )
+      .subscribe();
   }
 
   onAdd() {

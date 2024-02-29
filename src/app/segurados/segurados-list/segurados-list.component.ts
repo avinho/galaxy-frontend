@@ -1,3 +1,4 @@
+import { tap } from 'rxjs';
 import {
   AfterViewInit,
   Component,
@@ -13,12 +14,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {
   MatPaginator,
+  MatPaginatorIntl,
   MatPaginatorModule,
-  PageEvent,
 } from '@angular/material/paginator';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { Segurado } from '../../../utils/segurado';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import {
+  MatTable,
+  MatTableDataSource,
+  MatTableModule,
+} from '@angular/material/table';
+import { MyCustomPaginatorIntl } from '../../../utils/myCustomPaginator';
+import { Segurado } from '../../../utils/segurado';
 import { DataSource } from '@angular/cdk/collections';
 
 @Component({
@@ -33,6 +39,7 @@ import { DataSource } from '@angular/cdk/collections';
   ],
   templateUrl: './segurados-list.component.html',
   styleUrl: './segurados-list.component.scss',
+  providers: [{ provide: MatPaginatorIntl, useClass: MyCustomPaginatorIntl }],
 })
 export class SeguradosListComponent
   implements OnInit, OnChanges, AfterViewInit
@@ -41,27 +48,28 @@ export class SeguradosListComponent
 
   @Input() segurados: any;
   @Input() filterValue: string = '';
+  @Input() pageIndex = 0;
+  @Input() pageSize = 10;
+  @Input() pageSizeOptions = [5, 10, 25, 100];
+  @Input() length = 0;
 
   @Output() add = new EventEmitter(false);
   @Output() edit = new EventEmitter(false);
   @Output() remove = new EventEmitter(false);
-  @Output() pageEv = new EventEmitter<PageEvent>(false);
+  @Output() refresh = new EventEmitter(false);
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  @Input() pageIndex = 0;
-  @Input() pageSize = 10;
-  @Input() length: number = 0;
-  pageSizeOptions = [5, 10, 15];
+  constructor() {
+    this.segurados = new MatTableDataSource(this.segurados);
+  }
 
-  constructor() {}
   ngAfterViewInit(): void {
     this.segurados.sort = this.sort;
   }
 
   ngOnInit(): void {
-    this.segurados = new MatTableDataSource(this.segurados);
     this.segurados.paginator = this.paginator;
   }
 
@@ -102,7 +110,7 @@ export class SeguradosListComponent
     this.remove.emit(id);
   }
 
-  handlePageEvent(pageEvent: PageEvent) {
-    this.pageEv.emit(pageEvent);
+  onPageChange(event: any) {
+    this.refresh.emit(event);
   }
 }

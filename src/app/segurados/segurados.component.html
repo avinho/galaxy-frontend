@@ -1,8 +1,27 @@
-<mat-card>
+<div class="card-container row">
+  <mat-card class="card col">
+    <mat-card-header>Segurados Ativos</mat-card-header>
+    <mat-card-content>Ativos</mat-card-content>
+  </mat-card>
+  <mat-card class="card col">
+    <mat-card-header>Segurados Inativos</mat-card-header>
+    <mat-card-content>Inativos</mat-card-content>
+  </mat-card>
+  <mat-card class="card col">
+    <mat-card-header>Segurados Inativos</mat-card-header>
+    <mat-card-content>Inativos</mat-card-content>
+  </mat-card>
+  <mat-card class="card col">
+    <mat-card-header>Segurados Inativos</mat-card-header>
+    <mat-card-content>Inativos</mat-card-content>
+  </mat-card>
+</div>
+
+<mat-card class="mat-elevation-z8">
   <mat-toolbar color="primary">
-    <span>Segurados</span>
+    <!-- <span>Segurados</span> -->
   </mat-toolbar>
-  @if (segurados$ | async; as segurados) {
+  @if (segurados$) {
   <mat-card-header>
     <mat-form-field>
       <mat-label>Pesquisa</mat-label>
@@ -19,19 +38,17 @@
         <mat-icon>search</mat-icon>
       </button>
       }
-    </mat-form-field>
-  </mat-card-header>
+    </mat-form-field></mat-card-header
+  >
   <mat-card-content>
     <segurados-list
-      [segurados]="segurados.segurados"
+      [segurados]="segurados$.segurados"
       [filterValue]="filterValue"
-      [length]="segurados.totalElements"
-      [pageIndex]="pageIndex"
-      [pageSize]="pageSize"
+      [length]="segurados$.totalElements"
       (add)="onAdd()"
       (edit)="onEdit($event)"
       (remove)="onDelete($event)"
-      (pageEv)="handlePageEvent($event)"
+      (refresh)="handlePageEvent($event)"
     ></segurados-list>
   </mat-card-content>
   } @else {
