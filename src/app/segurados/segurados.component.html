@@ -10,12 +10,12 @@
         matInput
         type="text"
         placeholder="Ex. Alvaro"
-        (keyup.enter)="applyFilter()"
+        (keyup.enter)="refresh()"
         #input
         (keyup)="onFilter($event)"
       />
       @if (input.value) {
-      <button matSuffix mat-icon-button (click)="applyFilter()">
+      <button matSuffix mat-icon-button (click)="refresh()">
         <mat-icon>search</mat-icon>
       </button>
       }
@@ -24,10 +24,14 @@
   <mat-card-content>
     <segurados-list
       [segurados]="segurados.segurados"
+      [filterValue]="filterValue"
+      [length]="segurados.totalElements"
+      [pageIndex]="pageIndex"
+      [pageSize]="pageSize"
       (add)="onAdd()"
       (edit)="onEdit($event)"
       (remove)="onDelete($event)"
-      [filterValue]="filterValue"
+      (pageEv)="handlePageEvent($event)"
     ></segurados-list>
   </mat-card-content>
   } @else {

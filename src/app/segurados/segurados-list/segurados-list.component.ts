@@ -11,7 +11,11 @@ import {
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import {
+  MatPaginator,
+  MatPaginatorModule,
+  PageEvent,
+} from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Segurado } from '../../../utils/segurado';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -35,33 +39,35 @@ export class SeguradosListComponent
 {
   readonly displayedColumns: string[] = ['id', 'name', 'cpf_cnpj', 'actions'];
 
-  @Input() segurados: Segurado[] = [];
-  dataSource: MatTableDataSource<Segurado> = new MatTableDataSource();
+  @Input() segurados: any;
   @Input() filterValue: string = '';
 
   @Output() add = new EventEmitter(false);
   @Output() edit = new EventEmitter(false);
   @Output() remove = new EventEmitter(false);
+  @Output() pageEv = new EventEmitter<PageEvent>(false);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  @Input() pageIndex = 0;
+  @Input() pageSize = 10;
+  @Input() length: number = 0;
+  pageSizeOptions = [5, 10, 15];
+
   constructor() {}
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.segurados.sort = this.sort;
   }
+
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource(this.segurados);
+    this.segurados = new MatTableDataSource(this.segurados);
+    this.segurados.paginator = this.paginator;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filterValue']) {
-      this.dataSource.filter = this.filterValue;
-
-      if (this.dataSource.paginator) {
-        this.dataSource.paginator.firstPage();
-      }
+      this.segurados.filter = this.filterValue;
     }
   }
 
@@ -94,5 +100,9 @@ export class SeguradosListComponent
 
   onDelete(id: number) {
     this.remove.emit(id);
+  }
+
+  handlePageEvent(pageEvent: PageEvent) {
+    this.pageEv.emit(pageEvent);
   }
 }
