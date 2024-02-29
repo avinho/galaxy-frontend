@@ -47,6 +47,7 @@ export class SeguradosListComponent
   readonly displayedColumns: string[] = ['id', 'name', 'cpf_cnpj', 'actions'];
 
   @Input() segurados: any;
+  dataSource = new MatTableDataSource<Segurado>();
   @Input() filterValue: string = '';
   @Input() pageIndex = 0;
   @Input() pageSize = 10;
@@ -61,21 +62,23 @@ export class SeguradosListComponent
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor() {
-    this.segurados = new MatTableDataSource(this.segurados);
-  }
+  constructor() {}
 
   ngAfterViewInit(): void {
-    this.segurados.sort = this.sort;
+    this.dataSource.sort = this.sort;
   }
 
   ngOnInit(): void {
-    this.segurados.paginator = this.paginator;
+    this.dataSource = new MatTableDataSource(this.segurados);
+    this.dataSource.paginator = this.paginator;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (changes['segurados']) {
+      this.dataSource.data = this.segurados;
+    }
     if (changes['filterValue']) {
-      this.segurados.filter = this.filterValue;
+      this.dataSource.filter = this.filterValue;
     }
   }
 
