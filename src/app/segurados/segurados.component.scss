@@ -12,7 +12,7 @@ mat-form-field {
 mat-toolbar {
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
-  height: 10px;
+  height: 8px;
 }
 
 .loading-spinner {
@@ -28,6 +28,12 @@ mat-toolbar {
   justify-content: space-between;
   margin: 10px 20px;
   /* Space cards evenly */
+}
+
+.card-content {
+  text-align: center;
+  padding: 35px;
+  font-size: 25px;
 }
 
 .card {

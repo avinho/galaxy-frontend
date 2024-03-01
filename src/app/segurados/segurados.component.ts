@@ -3,11 +3,12 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-
+import { PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,12 +17,12 @@ import { SeguradoPage } from '../../utils/SeguradoPage';
 import { Segurado } from '../../utils/segurado';
 import { SeguradoService } from './seguradoService.service';
 import { SeguradosListComponent } from './segurados-list/segurados-list.component';
-import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-segurados',
   standalone: true,
   imports: [
+    MatDividerModule,
     FormsModule,
     CommonModule,
     MatButtonModule,

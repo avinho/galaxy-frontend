@@ -1,24 +1,47 @@
 <div class="card-container row">
   <mat-card class="card col">
-    <mat-card-header>Segurados Ativos</mat-card-header>
-    <mat-card-content>Ativos</mat-card-content>
+    <mat-toolbar color="primary"></mat-toolbar>
+    <mat-card-header style="font-size: 16px">Segurados Ativos</mat-card-header>
+    <mat-divider style="margin-top: 8px"></mat-divider>
+    <mat-card-content class="card-content">1.520 / 3.200</mat-card-content>
   </mat-card>
   <mat-card class="card col">
-    <mat-card-header>Segurados Inativos</mat-card-header>
-    <mat-card-content>Inativos</mat-card-content>
+    <mat-toolbar color="primary"></mat-toolbar>
+    <mat-card-header style="font-size: 16px"
+      >Segurados Inativos</mat-card-header
+    >
+    <mat-divider style="margin-top: 8px"></mat-divider>
+    <mat-card-content class="card-content">1.680 / 3.200</mat-card-content>
   </mat-card>
   <mat-card class="card col">
-    <mat-card-header>Segurados Inativos</mat-card-header>
-    <mat-card-content>Inativos</mat-card-content>
+    <mat-toolbar color="primary"></mat-toolbar>
+    <mat-card-content
+      style="display: flex; justify-content: center; padding-top: 40px"
+    >
+      <div>
+        <p style="font-size: 15px">Pessoa Fisica</p>
+        <span style="font-size: 25px">760</span>
+      </div>
+      <mat-divider
+        vertical="true"
+        style="height: 100%; margin: 10px"
+      ></mat-divider>
+      <div>
+        <p style="font-size: 15px">Pessoa juridica</p>
+        <span style="font-size: 25px">760</span>
+      </div>
+    </mat-card-content>
   </mat-card>
   <mat-card class="card col">
-    <mat-card-header>Segurados Inativos</mat-card-header>
-    <mat-card-content>Inativos</mat-card-content>
+    <mat-toolbar color="primary"></mat-toolbar>
+    <mat-card-header style="font-size: 16px">Segurados Novos</mat-card-header>
+    <mat-divider style="margin-top: 8px"></mat-divider>
+    <mat-card-content class="card-content">12</mat-card-content>
   </mat-card>
 </div>
 
 <mat-card class="mat-elevation-z8">
-  <mat-toolbar color="primary">
+  <mat-toolbar color="primary" style="height: 10px">
     <!-- <span>Segurados</span> -->
   </mat-toolbar>
   @if (segurados$) {
