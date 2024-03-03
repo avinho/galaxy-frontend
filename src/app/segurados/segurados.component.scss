@@ -30,6 +30,21 @@ mat-toolbar {
   /* Space cards evenly */
 }
 
+.card-content-inativos a {
+  font-size: 25px;
+  text-decoration: none;
+  color: blue;
+}
+
+.card-content-inativos {
+  text-align: center;
+  padding: 35px;
+}
+
+.card-content a:hover {
+  text-decoration: underline;
+}
+
 .card-content {
   text-align: center;
   padding: 35px;

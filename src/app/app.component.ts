@@ -4,8 +4,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { Navlist } from '../utils/navList';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ import { Navlist } from '../utils/navList';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   imports: [
+    CommonModule,
     MatToolbarModule,
     RouterOutlet,
     MatSidenavModule,
@@ -68,5 +70,5 @@ export class AppComponent {
     },
   ];
 
-  constructor() {}
+  constructor(public router: Router) {}
 }

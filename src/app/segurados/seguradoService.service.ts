@@ -37,6 +37,6 @@ export class SeguradoService {
   }
 
   create(data: any) {
-    this.httpClient.post(this.API, data).pipe(first());
+    return this.httpClient.post(this.API, data).pipe(first());
   }
 }

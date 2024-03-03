@@ -17,6 +17,8 @@ import { SeguradoPage } from '../../utils/SeguradoPage';
 import { Segurado } from '../../utils/segurado';
 import { SeguradoService } from './seguradoService.service';
 import { SeguradosListComponent } from './segurados-list/segurados-list.component';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { SeguradosFormComponent } from './segurados-form/segurados-form.component';
 
 @Component({
   selector: 'app-segurados',
@@ -34,6 +36,7 @@ import { SeguradosListComponent } from './segurados-list/segurados-list.componen
     SeguradosListComponent,
     MatProgressSpinnerModule,
     MatGridListModule,
+    MatDialogModule,
   ],
   templateUrl: './segurados.component.html',
   styleUrl: './segurados.component.scss',
@@ -47,6 +50,7 @@ export class SeguradosComponent {
   length = 0;
 
   constructor(
+    private dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
     private service: SeguradoService
@@ -90,7 +94,16 @@ export class SeguradosComponent {
 
   onAdd() {
     console.log('onAdd()');
-    this.router.navigate(['new'], { relativeTo: this.route });
+    const dialogRef = this.dialog.open(SeguradosFormComponent, {
+      data: { name: 'alvaro', animal: 'luke' },
+      maxWidth: '75vw',
+      maxHeight: '100vh',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+    });
+    //this.router.navigate(['new'], { relativeTo: this.route });
   }
 
   onEdit(segurado: Segurado) {

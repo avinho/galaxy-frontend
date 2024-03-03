@@ -1,0 +1,148 @@
+<div style="display: flex; justify-content: space-between">
+  <h2 mat-dialog-title>Cadastro Segurado</h2>
+  <button mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<mat-divider></mat-divider>
+<mat-dialog-content>
+  <form [formGroup]="seguradoFormGroup">
+    <mat-stepper orientation="vertical" linear animationDuration="600">
+      <mat-step
+        label="Segurado"
+        [stepControl]="
+          seguradoFormGroup.controls['name'] &&
+          seguradoFormGroup.controls['document']
+        "
+        state="person"
+      >
+        <mat-form-field>
+          <mat-label>Nome</mat-label>
+          <input
+            matInput
+            placeholder="Nome / Razão Social"
+            formControlName="name"
+            required
+            cdkFocusInitial
+          />
+        </mat-form-field>
+        <mat-form-field style="margin: 15px">
+          <mat-label>Documento</mat-label>
+          <input
+            matInput
+            placeholder="CPF / CNPJ"
+            formControlName="document"
+            required
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Data de Nascimento</mat-label>
+          <input
+            matInput
+            placeholder="dd/mm/yyyy"
+            formControlName="dataNascimento"
+          />
+        </mat-form-field>
+      </mat-step>
+      <mat-step
+        label="Endereço"
+        [stepControl]="
+          seguradoFormGroup.controls['postalCode'] ||
+          seguradoFormGroup.controls['adress'] ||
+          seguradoFormGroup.controls['number']
+        "
+        optional="true"
+        state="location"
+      >
+        <mat-form-field>
+          <mat-label>CEP</mat-label>
+          <input matInput placeholder="CEP" formControlName="postalCode" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Endereço</mat-label>
+          <input matInput placeholder="Endereço" formControlName="adress" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Numero</mat-label>
+          <input matInput placeholder="Numero" formControlName="number" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Complemento</mat-label>
+          <input
+            matInput
+            placeholder="Complemento"
+            formControlName="complement"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Bairro</mat-label>
+          <input matInput placeholder="Bairro" formControlName="district" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Cidade</mat-label>
+          <input matInput placeholder="Cidade" formControlName="city" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Estado</mat-label>
+          <input matInput placeholder="Estado" formControlName="state" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Pais</mat-label>
+          <input matInput placeholder="Pais" formControlName="country" />
+        </mat-form-field>
+      </mat-step>
+      <mat-step
+        [stepControl]="
+          seguradoFormGroup.controls['email'] ||
+          seguradoFormGroup.controls['phone']
+        "
+        label="Contato"
+        state="phone"
+      >
+        <mat-form-field>
+          <mat-label>E-mail</mat-label>
+          <input matInput placeholder="E-mail" formControlName="email" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Telefone</mat-label>
+          <input matInput placeholder="Telefone" formControlName="phone" />
+        </mat-form-field>
+      </mat-step>
+      <mat-step
+        label="Corretor"
+        [stepControl]="seguradoFormGroup"
+        state="corretor"
+      >
+        <mat-form-field>
+          <mat-label>Corretor</mat-label>
+          <mat-select matNativeControl #corretor>
+            @for (corretor of corretores; track corretor) {
+            <mat-option [value]="corretor.nome">{{ corretor.nome }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <div [align]="'end'">
+          <button mat-raised-button (click)="onSubmit()">
+            <mat-icon>save</mat-icon>
+            Cadastrar
+          </button>
+        </div>
+      </mat-step>
+
+      <!-- Icon overrides. -->
+      <ng-template matStepperIcon="person">
+        <mat-icon>person</mat-icon>
+      </ng-template>
+      <ng-template matStepperIcon="phone">
+        <mat-icon>call_end</mat-icon>
+      </ng-template>
+      <ng-template matStepperIcon="location">
+        <mat-icon>location_on</mat-icon>
+      </ng-template>
+      <ng-template matStepperIcon="corretor">
+        <mat-icon>account_circle</mat-icon>
+      </ng-template>
+    </mat-stepper>
+  </form>
+</mat-dialog-content>
+<!-- <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial></button> -->
