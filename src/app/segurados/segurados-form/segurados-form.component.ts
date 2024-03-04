@@ -6,6 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
@@ -25,6 +26,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { SeguradoService } from '../seguradoService.service';
+import { CommonModule } from '@angular/common';
 
 export interface Corretor {
   nome: string;
@@ -47,6 +49,8 @@ export interface Corretor {
     MatIconModule,
     MatSelectModule,
     MatDividerModule,
+    MatRadioModule,
+    CommonModule,
   ],
   templateUrl: './segurados-form.component.html',
   styleUrl: './segurados-form.component.scss',
@@ -74,6 +78,7 @@ export class SeguradosFormComponent {
   seguradoFormGroup = this.formBuider.group({
     name: ['', Validators.required],
     document: ['', Validators.required],
+    tipo: [''],
     dataNascimento: [''],
     adress: [''],
     postalCode: [''],

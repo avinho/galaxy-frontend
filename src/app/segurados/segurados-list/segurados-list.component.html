@@ -16,13 +16,21 @@
     <mat-cell *matCellDef="let segurado">{{ segurado.name }}</mat-cell>
   </ng-container>
 
+  <!-- Name Column -->
+  <ng-container matColumnDef="tipo">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</mat-header-cell>
+    <mat-cell *matCellDef="let segurado">{{
+      segurado.tipo_segurado === "PF" ? "Pessoa Física" : "Pessoa Jurídica"
+    }}</mat-cell>
+  </ng-container>
+
   <!-- CPF/CNPJ Column -->
-  <ng-container matColumnDef="cpf_cnpj">
+  <ng-container matColumnDef="document">
     <mat-header-cell *matHeaderCellDef mat-sort-header
       >CPF/CNPJ</mat-header-cell
     >
     <mat-cell *matCellDef="let segurado">{{
-      format(segurado.cpf_cnpj)
+      format(segurado.document)
     }}</mat-cell>
   </ng-container>
 

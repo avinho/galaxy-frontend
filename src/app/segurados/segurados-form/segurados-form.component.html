@@ -16,21 +16,31 @@
         "
         state="person"
       >
+        <div>
+          <mat-radio-group aria-label="Select an option" formControlName="tipo">
+            <mat-radio-button
+              style="margin: 20px"
+              color="primary"
+              value="PF"
+              focus
+              checked="true"
+              >Pessoa Física</mat-radio-button
+            >
+            <mat-radio-button color="primary" value="PJ"
+              >Pessoa Jurídica</mat-radio-button
+            >
+          </mat-radio-group>
+        </div>
+        @if(seguradoFormGroup.controls['tipo'].value == 'PF') {
         <mat-form-field>
           <mat-label>Nome</mat-label>
-          <input
-            matInput
-            placeholder="Nome / Razão Social"
-            formControlName="name"
-            required
-            cdkFocusInitial
-          />
+          <input matInput placeholder="Nome" formControlName="name" required />
         </mat-form-field>
         <mat-form-field style="margin: 15px">
-          <mat-label>Documento</mat-label>
+          <mat-label>CPF</mat-label>
           <input
             matInput
-            placeholder="CPF / CNPJ"
+            placeholder="CPF"
             formControlName="document"
             required
           />
@@ -43,6 +53,26 @@
             formControlName="dataNascimento"
           />
         </mat-form-field>
+        } @else if (seguradoFormGroup.controls['tipo'].value == 'PJ') {
+        <mat-form-field>
+          <mat-label>Razao Social</mat-label>
+          <input
+            matInput
+            placeholder="Razao Social"
+            formControlName="name"
+            required
+          />
+        </mat-form-field>
+        <mat-form-field style="margin: 15px">
+          <mat-label>CNPJ</mat-label>
+          <input
+            matInput
+            placeholder="CNPJ"
+            formControlName="document"
+            required
+          />
+        </mat-form-field>
+        }
       </mat-step>
       <mat-step
         label="Endereço"

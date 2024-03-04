@@ -1,4 +1,3 @@
-import { tap } from 'rxjs';
 import {
   AfterViewInit,
   Component,
@@ -18,14 +17,9 @@ import {
   MatPaginatorModule,
 } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import {
-  MatTable,
-  MatTableDataSource,
-  MatTableModule,
-} from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MyCustomPaginatorIntl } from '../../../utils/myCustomPaginator';
 import { Segurado } from '../../../utils/segurado';
-import { DataSource } from '@angular/cdk/collections';
 
 @Component({
   selector: 'segurados-list',
@@ -44,7 +38,13 @@ import { DataSource } from '@angular/cdk/collections';
 export class SeguradosListComponent
   implements OnInit, OnChanges, AfterViewInit
 {
-  readonly displayedColumns: string[] = ['id', 'name', 'cpf_cnpj', 'actions'];
+  readonly displayedColumns: string[] = [
+    'id',
+    'name',
+    'tipo',
+    'document',
+    'actions',
+  ];
 
   @Input() segurados: any;
   dataSource = new MatTableDataSource<Segurado>();

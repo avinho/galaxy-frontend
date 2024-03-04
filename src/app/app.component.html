@@ -13,7 +13,7 @@
   <mat-drawer #drawer mode="side" opened class="sidenav">
     <mat-nav-list>
       @for (item of navlist; track item) {
-      <mat-list-item [routerLink]="item.path">
+      <mat-list-item [routerLink]="item.path" routerLinkActive="active">
         <mat-icon matListItemIcon style="margin-right: 15px">{{
           item.icon
         }}</mat-icon>
@@ -26,15 +26,4 @@
     <mat-toolbar>Segurados</mat-toolbar>
     <router-outlet></router-outlet>
   </mat-drawer-content>
-
-  <!--   @if(router.url === '/segurados') {
-  <mat-drawer-content class="sidenav-content">
-    <mat-toolbar>Segurados</mat-toolbar>
-    <router-outlet></router-outlet>
-  </mat-drawer-content>
-  } @else {
-  <mat-drawer-content class="sidenav-content">
-    <router-outlet></router-outlet>
-  </mat-drawer-content>
-  } -->
 </mat-drawer-container>
