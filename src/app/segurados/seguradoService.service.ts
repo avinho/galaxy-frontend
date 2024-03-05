@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { first } from 'rxjs';
 import { SeguradoPage } from '../../utils/SeguradoPage';
 import { Segurado } from '../../utils/segurado';
+import { PessoaJuridica } from '../../utils/pessoaJuridica';
+import { PessoaFisica } from '../../utils/pessoaFisica';
 
 @Injectable({
   providedIn: 'root',
@@ -37,9 +39,9 @@ export class SeguradoService {
   }
 
   createPF(data: any) {
-    return this.httpClient.post(`${this.API}/new/pf`, data).pipe(first());
+    return this.httpClient.post(`${this.API}/pf`, data).pipe(first());
   }
   createPJ(data: any) {
-    return this.httpClient.post(`${this.API}/new/pj`, data).pipe(first());
+    return this.httpClient.post(`${this.API}/pj`, data).pipe(first());
   }
 }

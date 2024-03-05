@@ -26,9 +26,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
-import { PessoaFisica } from '../../../utils/PessoaFisica';
-import { PessoaJuridica } from '../../../utils/PessoaJuridica';
 import { Corretor } from '../../../utils/corretor';
+import { PessoaFisica } from '../../../utils/pessoaFisica';
+import { PessoaJuridica } from '../../../utils/pessoaJuridica';
 
 export interface FormResult {
   tipo: string;

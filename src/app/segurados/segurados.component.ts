@@ -69,14 +69,12 @@ export class SeguradosComponent implements OnInit {
   }
 
   refresh() {
-    this.filterValue != ''
-      ? this.findByName(this.filterValue, this.pageIndex, this.pageSize)
-      : this.getData(this.pageIndex, this.pageSize);
+    this.filterValue != '' ? this.filterByName() : this.getData();
   }
 
-  findByName(name: string, pageIndex: number, pageSize: number) {
+  filterByName() {
     this.service
-      .findByName(name, pageIndex, pageSize)
+      .findByName(this.filterValue, this.pageIndex, this.pageSize)
       .pipe(
         tap((data) => {
           this.segurados$ = data;
@@ -85,9 +83,9 @@ export class SeguradosComponent implements OnInit {
       .subscribe();
   }
 
-  getData(pageIndex: number, pageSize: number) {
+  getData() {
     this.service
-      .list(pageIndex, pageSize)
+      .list(this.pageIndex, this.pageSize)
       .pipe(
         tap((data) => {
           this.segurados$ = data;
