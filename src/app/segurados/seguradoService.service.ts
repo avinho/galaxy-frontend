@@ -36,7 +36,10 @@ export class SeguradoService {
     return this.httpClient.delete(`${this.API}/${id}`).pipe(first());
   }
 
-  create(data: any) {
-    return this.httpClient.post(this.API, data).pipe(first());
+  createPF(data: any) {
+    return this.httpClient.post(`${this.API}/new/pf`, data).pipe(first());
+  }
+  createPJ(data: any) {
+    return this.httpClient.post(`${this.API}/new/pj`, data).pipe(first());
   }
 }

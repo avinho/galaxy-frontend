@@ -1,12 +1,12 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, Inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import {
   FormBuilder,
   FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
@@ -23,13 +23,16 @@ import {
 } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
-import { SeguradoService } from '../seguradoService.service';
-import { CommonModule } from '@angular/common';
+import { PessoaFisica } from '../../../utils/PessoaFisica';
+import { PessoaJuridica } from '../../../utils/PessoaJuridica';
+import { Corretor } from '../../../utils/corretor';
 
-export interface Corretor {
-  nome: string;
+export interface FormResult {
+  tipo: string;
+  data: PessoaFisica | PessoaJuridica;
 }
 
 @Component({
@@ -78,7 +81,7 @@ export class SeguradosFormComponent {
   seguradoFormGroup = this.formBuider.group({
     name: ['', Validators.required],
     document: ['', Validators.required],
-    tipo: [''],
+    tipo: ['', Validators.required],
     dataNascimento: [''],
     adress: [''],
     postalCode: [''],
@@ -90,28 +93,49 @@ export class SeguradosFormComponent {
     country: [''],
     email: [''],
     phone: [''],
+    corretor: [''],
   });
+
+  @Output() add = new EventEmitter(false);
 
   constructor(
     public dialogRef: MatDialogRef<SeguradosFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private formBuider: FormBuilder,
-    private service: SeguradoService
+    private formBuider: FormBuilder
   ) {}
 
   onSubmit() {
     if (this.seguradoFormGroup.valid) {
-      const result = {
-        name: this.seguradoFormGroup.value.name,
-        cpf_cnpj: this.seguradoFormGroup.value.document,
-      };
-      console.log(result);
-      this.service.create(result).subscribe((result) => console.log(result));
-      this.dialogRef.close();
-    }
-  }
+      let result: FormResult;
+      let tipoSegurado = this.seguradoFormGroup.controls['tipo'].value;
 
-  onNoClick(): void {
-    this.dialogRef.close();
+      switch (tipoSegurado) {
+        case 'PF': {
+          result = {
+            tipo: tipoSegurado,
+            data: {
+              name: this.seguradoFormGroup.value.name!,
+              document: this.seguradoFormGroup.value.document!,
+              birthDate: this.seguradoFormGroup.value.dataNascimento!,
+            },
+          };
+          break;
+        }
+        case 'PJ': {
+          result = {
+            tipo: tipoSegurado,
+            data: {
+              name: this.seguradoFormGroup.value.name!,
+              document: this.seguradoFormGroup.value.document!,
+            },
+          };
+          break;
+        }
+        default: {
+          throw Error('Invalid tipo segurado option');
+        }
+      }
+      this.dialogRef.close(result);
+    }
   }
 }

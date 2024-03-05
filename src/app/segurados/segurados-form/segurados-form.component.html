@@ -145,7 +145,7 @@
       >
         <mat-form-field>
           <mat-label>Corretor</mat-label>
-          <mat-select matNativeControl #corretor>
+          <mat-select matNativeControl formControlName="corretor" #corretor>
             @for (corretor of corretores; track corretor) {
             <mat-option [value]="corretor.nome">{{ corretor.nome }}</mat-option>
             }

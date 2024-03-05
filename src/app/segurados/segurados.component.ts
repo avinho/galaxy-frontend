@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -18,7 +18,10 @@ import { Segurado } from '../../utils/segurado';
 import { SeguradoService } from './seguradoService.service';
 import { SeguradosListComponent } from './segurados-list/segurados-list.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { SeguradosFormComponent } from './segurados-form/segurados-form.component';
+import {
+  FormResult,
+  SeguradosFormComponent,
+} from './segurados-form/segurados-form.component';
 
 @Component({
   selector: 'app-segurados',
@@ -41,7 +44,7 @@ import { SeguradosFormComponent } from './segurados-form/segurados-form.componen
   templateUrl: './segurados.component.html',
   styleUrl: './segurados.component.scss',
 })
-export class SeguradosComponent {
+export class SeguradosComponent implements OnInit {
   segurados$: SeguradoPage | null = null;
 
   filterValue: string = '';
@@ -54,7 +57,8 @@ export class SeguradosComponent {
     private router: Router,
     private route: ActivatedRoute,
     private service: SeguradoService
-  ) {
+  ) {}
+  ngOnInit(): void {
     this.refresh();
   }
 
@@ -93,17 +97,28 @@ export class SeguradosComponent {
   }
 
   onAdd() {
-    console.log('onAdd()');
     const dialogRef = this.dialog.open(SeguradosFormComponent, {
-      data: { name: 'alvaro', animal: 'luke' },
       maxWidth: '75vw',
       maxHeight: '100vh',
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
+    dialogRef.afterClosed().subscribe((result: FormResult) => {
+      if (result) {
+        this.createSegurado(result);
+      }
     });
-    //this.router.navigate(['new'], { relativeTo: this.route });
+  }
+
+  private createSegurado(result: FormResult) {
+    const seguradoService =
+      result.tipo === 'PF'
+        ? this.service.createPF(result.data)
+        : this.service.createPJ(result.data);
+
+    seguradoService.subscribe({
+      next: () => this.refresh(),
+      error: (error) => console.error('Error ao criar segurado: ', error),
+    });
   }
 
   onEdit(segurado: Segurado) {
