@@ -1,18 +1,16 @@
 <div class="card-container row">
   <mat-card class="card col">
     <mat-toolbar color="primary"></mat-toolbar>
-    <mat-card-header style="font-size: 16px">Segurados Ativos</mat-card-header>
+    <mat-card-header style="font-size: 16px">Segurados</mat-card-header>
     <mat-divider style="margin-top: 8px"></mat-divider>
-    <mat-card-content class="card-content">1.520 / 3.200</mat-card-content>
+    <mat-card-content class="card-content">{{ length }}</mat-card-content>
   </mat-card>
   <mat-card class="card col">
     <mat-toolbar color="primary"></mat-toolbar>
-    <mat-card-header style="font-size: 16px"
-      >Segurados Inativos</mat-card-header
-    >
+    <mat-card-header style="font-size: 16px">Segurados Ativos</mat-card-header>
     <mat-divider style="margin-top: 8px"></mat-divider>
     <mat-card-content class="card-content-inativos"
-      ><a href="#">1.520</a> / 3.200</mat-card-content
+      ><a href="#">{{ length }}</a></mat-card-content
     >
   </mat-card>
   <mat-card class="card col">
