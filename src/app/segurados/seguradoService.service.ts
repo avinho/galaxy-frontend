@@ -3,14 +3,14 @@ import { Injectable } from '@angular/core';
 import { first } from 'rxjs';
 import { SeguradoPage } from '../../utils/SeguradoPage';
 import { Segurado } from '../../utils/segurado';
-import 'dotenv/config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SeguradoService {
-  private readonly API =
-    process.env['API_URL'] || 'http://localhost:8080/api/segurados';
+  private readonly API = 'https://galaxy-backend-e5g4.onrender.com';
+
+  //'http://localhost:8080/api/segurados'
 
   constructor(private httpClient: HttpClient) {}
 
