@@ -8,14 +8,15 @@ import { Segurado } from '../../utils/segurado';
   providedIn: 'root',
 })
 export class SeguradoService {
-  private readonly API = 'https://galaxy-backend-e5g4.onrender.com';
+  private readonly API =
+    'https://galaxy-backend-e5g4.onrender.com/api/segurados';
 
   //'http://localhost:8080/api/segurados'
 
   constructor(private httpClient: HttpClient) {}
 
   findAll() {
-    return this.httpClient.get<Segurado[]>(`${this.API}/segurados/all`);
+    return this.httpClient.get<Segurado[]>(`${this.API}/all`);
   }
 
   list(pageNumber: number, pageSize: number) {
@@ -28,20 +29,20 @@ export class SeguradoService {
 
   findByName(name: string, pageNumber: number, pageSize: number) {
     return this.httpClient
-      .get<SeguradoPage>(`${this.API}/segurados/search`, {
+      .get<SeguradoPage>(`${this.API}/search`, {
         params: { name, pageNumber, pageSize },
       })
       .pipe(first());
   }
 
   delete(id: number) {
-    return this.httpClient.delete(`${this.API}/segurados/${id}`).pipe(first());
+    return this.httpClient.delete(`${this.API}/${id}`).pipe(first());
   }
 
   createPF(data: any) {
-    return this.httpClient.post(`${this.API}/segurados/pf`, data).pipe(first());
+    return this.httpClient.post(`${this.API}/pf`, data).pipe(first());
   }
   createPJ(data: any) {
-    return this.httpClient.post(`${this.API}/segurados/pj`, data).pipe(first());
+    return this.httpClient.post(`${this.API}/pj`, data).pipe(first());
   }
 }
