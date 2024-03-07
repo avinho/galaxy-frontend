@@ -51,8 +51,9 @@ export class SeguradosComponent implements OnInit {
   pageIndex = 0;
   pageSize = 10;
   length = 0;
-  pf = 0;
-  pj = 0;
+  pfCount = 0;
+  pjCount = 0;
+  newInsurancesCount = 0;
 
   constructor(
     private dialog: MatDialog,
@@ -92,6 +93,8 @@ export class SeguradosComponent implements OnInit {
         tap((data) => {
           this.segurados$ = data;
           this.length = data.totalElements;
+          this.pfCount = data.pfCount;
+          this.pjCount = data.pjCount;
         })
       )
       .subscribe();

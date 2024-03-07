@@ -8,8 +8,8 @@ import { Segurado } from '../../utils/segurado';
   providedIn: 'root',
 })
 export class SeguradoService {
-  private readonly API =
-    'https://galaxy-backend-e5g4.onrender.com/api/segurados';
+  private readonly API = 'http://localhost:8080/api/segurados';
+  //  'https://galaxy-backend-e5g4.onrender.com/api/segurados';
 
   //'http://localhost:8080/api/segurados'
 

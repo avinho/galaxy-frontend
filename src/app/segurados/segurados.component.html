@@ -20,7 +20,7 @@
     >
       <div>
         <p style="font-size: 15px">Pessoa Fisica</p>
-        <span style="font-size: 25px">760</span>
+        <span style="font-size: 25px">{{ pfCount }}</span>
       </div>
       <mat-divider
         vertical="true"
@@ -28,7 +28,7 @@
       ></mat-divider>
       <div>
         <p style="font-size: 15px">Pessoa juridica</p>
-        <span style="font-size: 25px">760</span>
+        <span style="font-size: 25px">{{ pjCount }}</span>
       </div>
     </mat-card-content>
   </mat-card>
@@ -36,7 +36,9 @@
     <mat-toolbar color="primary"></mat-toolbar>
     <mat-card-header style="font-size: 16px">Segurados Novos</mat-card-header>
     <mat-divider style="margin-top: 8px"></mat-divider>
-    <mat-card-content class="card-content">12</mat-card-content>
+    <mat-card-content class="card-content">{{
+      newInsurancesCount
+    }}</mat-card-content>
   </mat-card>
 </div>
 

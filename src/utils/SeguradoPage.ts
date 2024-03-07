@@ -4,4 +4,6 @@ export interface SeguradoPage {
   segurados: Segurado[];
   totalPages: number;
   totalElements: number;
+  pfCount: number;
+  pjCount: number;
 }
