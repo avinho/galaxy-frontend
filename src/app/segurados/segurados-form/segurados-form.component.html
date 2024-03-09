@@ -5,24 +5,24 @@
   </button>
 </div>
 <mat-divider></mat-divider>
-<mat-dialog-content>
+<mat-dialog-content style="margin-bottom: 5px">
   <form [formGroup]="seguradoFormGroup">
-    <mat-stepper orientation="vertical" linear animationDuration="600">
+    <mat-stepper
+      orientation="horizontal"
+      linear="true"
+      animationDuration="600"
+      #stepper
+    >
       <mat-step
-        label="Segurado"
-        [stepControl]="
-          seguradoFormGroup.controls['name'] &&
-          seguradoFormGroup.controls['document']
-        "
-        state="person"
+        formGroupName="dadosPessoais"
+        [stepControl]="seguradoFormGroup.get('dadosPessoais.name')!"
       >
-        <div>
+        <div style="margin-top: 15px; margin-bottom: 15px">
           <mat-radio-group aria-label="Select an option" formControlName="tipo">
             <mat-radio-button
-              style="margin: 20px"
+              style="margin-right: 20px; margin-left: 10px"
               color="primary"
               value="PF"
-              focus
               checked="true"
               >Pessoa Física</mat-radio-button
             >
@@ -31,76 +31,112 @@
             >
           </mat-radio-group>
         </div>
-        @if(seguradoFormGroup.controls['tipo'].value == 'PF') {
-        <mat-form-field>
-          <mat-label>Nome</mat-label>
-          <input matInput placeholder="Nome" formControlName="name" required />
-        </mat-form-field>
-        <mat-form-field style="margin: 15px">
-          <mat-label>CPF</mat-label>
-          <input
-            matInput
-            placeholder="CPF"
-            formControlName="document"
-            required
-          />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Data de Nascimento</mat-label>
-          <input
-            matInput
-            placeholder="dd/mm/yyyy"
-            formControlName="dataNascimento"
-          />
-        </mat-form-field>
-        } @else if (seguradoFormGroup.controls['tipo'].value == 'PJ') {
-        <mat-form-field>
-          <mat-label>Razao Social</mat-label>
-          <input
-            matInput
-            placeholder="Razao Social"
-            formControlName="name"
-            required
-          />
-        </mat-form-field>
-        <mat-form-field style="margin: 15px">
-          <mat-label>CNPJ</mat-label>
-          <input
-            matInput
-            placeholder="CNPJ"
-            formControlName="document"
-            required
-          />
-        </mat-form-field>
-        }
+        <ng-template matStepLabel>Dados Pessoais</ng-template>
+        <div *ngIf="seguradoFormGroup.get('dadosPessoais.tipo')!.value == 'PF'">
+          <mat-form-field>
+            <mat-label>Nome</mat-label>
+            <input
+              matInput
+              placeholder="Ex. Pedro Henrique"
+              formControlName="name"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>CPF</mat-label>
+            <input
+              matInput
+              placeholder="000.000.000-00"
+              mask="000.000.000-00"
+              formControlName="document"
+              [required]="
+                seguradoFormGroup.get('dadosPessoais.tipo')!.value == 'PF'
+                  ? true
+                  : false
+              "
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Data de Nascimento</mat-label>
+            <input
+              matInput
+              placeholder="00/00/0000"
+              mask="00/00/0000"
+              formControlName="birthDate"
+              [required]="
+                seguradoFormGroup.get('dadosPessoais.tipo')!.value == 'PF'
+                  ? true
+                  : false
+              "
+            />
+          </mat-form-field>
+        </div>
+        <div *ngIf="seguradoFormGroup.get('dadosPessoais.tipo')!.value == 'PJ'">
+          <mat-form-field>
+            <mat-label>Razão Social</mat-label>
+            <input
+              matInput
+              placeholder="Razão Social"
+              formControlName="name"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>CNPJ</mat-label>
+            <input
+              matInput
+              placeholder="00.000.000/0000-00"
+              mask="00.000.000/0000-00"
+              formControlName="document"
+              [required]="
+                seguradoFormGroup.get('dadosPessoais.tipo')!.value == 'PJ'
+                  ? true
+                  : false
+              "
+            />
+          </mat-form-field>
+        </div>
+        <div [align]="'end'">
+          <button
+            mat-button
+            [disabled]="
+              seguradoFormGroup.get('dadosPessoais.tipo')?.value != null
+                ? false
+                : true
+            "
+            matStepperNext
+          >
+            Próximo
+          </button>
+        </div>
       </mat-step>
       <mat-step
-        label="Endereço"
-        [stepControl]="
-          seguradoFormGroup.controls['postalCode'] ||
-          seguradoFormGroup.controls['adress'] ||
-          seguradoFormGroup.controls['number']
-        "
-        optional="true"
-        state="location"
+        formGroupName="addressGroup"
+        [stepControl]="seguradoFormGroup.get('addressGroup.address')!"
       >
+        <ng-template matStepLabel>Endereço</ng-template>
         <mat-form-field>
           <mat-label>CEP</mat-label>
-          <input matInput placeholder="CEP" formControlName="postalCode" />
+          <input
+            matInput
+            placeholder="CEP"
+            mask="00000-000"
+            formControlName="postalCode"
+          />
         </mat-form-field>
         <mat-form-field>
           <mat-label>Endereço</mat-label>
-          <input matInput placeholder="Endereço" formControlName="adress" />
+          <input matInput placeholder="Endereço" formControlName="address" />
         </mat-form-field>
         <mat-form-field>
           <mat-label>Numero</mat-label>
-          <input matInput placeholder="Numero" formControlName="number" />
+          <input matInput placeholder="0000" formControlName="number" />
         </mat-form-field>
         <mat-form-field>
           <mat-label>Complemento</mat-label>
           <input
             matInput
-            placeholder="Complemento"
+            placeholder="Ex. Apartamento, Casa"
             formControlName="complement"
           />
         </mat-form-field>
@@ -120,58 +156,72 @@
           <mat-label>Pais</mat-label>
           <input matInput placeholder="Pais" formControlName="country" />
         </mat-form-field>
-      </mat-step>
-      <mat-step
-        [stepControl]="
-          seguradoFormGroup.controls['email'] ||
-          seguradoFormGroup.controls['phone']
-        "
-        label="Contato"
-        state="phone"
-      >
-        <mat-form-field>
-          <mat-label>E-mail</mat-label>
-          <input matInput placeholder="E-mail" formControlName="email" />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Telefone</mat-label>
-          <input matInput placeholder="Telefone" formControlName="phone" />
-        </mat-form-field>
-      </mat-step>
-      <mat-step
-        label="Corretor"
-        [stepControl]="seguradoFormGroup"
-        state="corretor"
-      >
-        <mat-form-field>
-          <mat-label>Corretor</mat-label>
-          <mat-select matNativeControl formControlName="corretor" #corretor>
-            @for (corretor of corretores; track corretor) {
-            <mat-option [value]="corretor.nome">{{ corretor.nome }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
         <div [align]="'end'">
-          <button mat-raised-button (click)="onSubmit()">
+          <button mat-button matStepperPrevious>Voltar</button>
+          <button mat-button matStepperNext>Próximo</button>
+        </div>
+      </mat-step>
+      <mat-step
+        formGroupName="contact"
+        [stepControl]="seguradoFormGroup.get('contact')!"
+      >
+        <ng-template matStepLabel>Contato</ng-template>
+        <div style="margin-top: 15px">
+          <mat-form-field>
+            <mat-label>E-mail</mat-label>
+            <input
+              matInput
+              type="email"
+              placeholder="example@example.com"
+              formControlName="email"
+            />
+            @if (seguradoFormGroup.get('email')?.invalid) {
+            <mat-error>{{ getErrorMessage("contact", "email") }}</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Telefone</mat-label>
+            <input
+              matInput
+              placeholder="(00) 00000-0000"
+              mask="(00) 00000-0000"
+              formControlName="phone"
+            />
+          </mat-form-field>
+        </div>
+        <div [align]="'end'">
+          <button mat-button matStepperPrevious>Voltar</button>
+          <button mat-button matStepperNext>Próximo</button>
+        </div>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Corretor</ng-template>
+        <div style="margin-top: 15px">
+          <mat-form-field>
+            <mat-label>Corretor</mat-label>
+            <mat-select matNativeControl formControlName="corretor" #corretor>
+              @for (corretor of corretores; track corretor) {
+              <mat-option [value]="corretor.nome">{{
+                corretor.nome
+              }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div [align]="'end'" style="margin-top: 9.2vh">
+          <button mat-button matStepperPrevious style="margin-right: 10px">
+            Voltar
+          </button>
+          <button
+            mat-raised-button
+            style="background-color: #4db355; color: white"
+            (click)="onSubmit()"
+          >
             <mat-icon>save</mat-icon>
             Cadastrar
           </button>
         </div>
       </mat-step>
-
-      <!-- Icon overrides. -->
-      <ng-template matStepperIcon="person">
-        <mat-icon>person</mat-icon>
-      </ng-template>
-      <ng-template matStepperIcon="phone">
-        <mat-icon>call_end</mat-icon>
-      </ng-template>
-      <ng-template matStepperIcon="location">
-        <mat-icon>location_on</mat-icon>
-      </ng-template>
-      <ng-template matStepperIcon="corretor">
-        <mat-icon>account_circle</mat-icon>
-      </ng-template>
     </mat-stepper>
   </form>
 </mat-dialog-content>

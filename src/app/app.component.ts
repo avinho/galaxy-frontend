@@ -7,6 +7,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { Navlist } from '../utils/navList';
 import { CommonModule } from '@angular/common';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +23,7 @@ import { CommonModule } from '@angular/common';
     MatButtonModule,
     MatListModule,
     RouterModule,
+    MatMenuModule,
   ],
 })
 export class AppComponent {

@@ -1,8 +1,10 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Inject, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
+  FormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators,
@@ -29,6 +31,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { Corretor } from '../../../utils/corretor';
 import { PessoaFisica } from '../../../utils/pessoaFisica';
 import { PessoaJuridica } from '../../../utils/pessoaJuridica';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 export interface FormResult {
   tipo: string;
@@ -54,21 +57,25 @@ export interface FormResult {
     MatDividerModule,
     MatRadioModule,
     CommonModule,
+    NgxMaskDirective,
   ],
   templateUrl: './segurados-form.component.html',
   styleUrl: './segurados-form.component.scss',
   providers: [
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue: { appearance: 'outline' },
+      useValue: { appearance: 'outline', floatLabel: 'always' },
     },
+    provideNgxMask(),
     {
       provide: STEPPER_GLOBAL_OPTIONS,
       useValue: { displayDefaultIndicatorType: false, showError: true },
     },
   ],
 })
-export class SeguradosFormComponent {
+export class SeguradosFormComponent implements OnInit {
+  @Output() add = new EventEmitter(false);
+
   corretores: Corretor[] = [
     { nome: 'Alcantara' },
     { nome: 'Fraga' },
@@ -78,25 +85,7 @@ export class SeguradosFormComponent {
     { nome: 'Sem Corretor' },
   ];
 
-  seguradoFormGroup = this.formBuider.group({
-    name: ['', Validators.required],
-    document: ['', Validators.required],
-    tipo: ['', Validators.required],
-    dataNascimento: [''],
-    adress: [''],
-    postalCode: [''],
-    number: [''],
-    complement: [''],
-    district: [''],
-    city: [''],
-    state: [''],
-    country: [''],
-    email: [''],
-    phone: [''],
-    corretor: [''],
-  });
-
-  @Output() add = new EventEmitter(false);
+  seguradoFormGroup!: FormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<SeguradosFormComponent>,
@@ -104,19 +93,49 @@ export class SeguradosFormComponent {
     private formBuider: FormBuilder
   ) {}
 
+  ngOnInit() {
+    this.seguradoFormGroup = this.formBuider.group({
+      dadosPessoais: this.formBuider.group({
+        name: ['', Validators.required],
+        tipo: [null, Validators.required],
+        document: ['', Validators.required],
+        birthDate: [''],
+      }),
+      addressGroup: this.formBuider.group({
+        address: [''],
+        postalCode: [''],
+        number: [''],
+        complement: [''],
+        district: [''],
+        city: [''],
+        state: [''],
+        country: [''],
+      }),
+      contact: this.formBuider.group({
+        email: ['', Validators.email],
+        phone: [''],
+      }),
+      corretor: [''],
+    });
+  }
+
   onSubmit() {
+    console.log(this.seguradoFormGroup.valid);
     if (this.seguradoFormGroup.valid) {
       let result: FormResult;
-      let tipoSegurado = this.seguradoFormGroup.controls['tipo'].value;
+      let tipoSegurado =
+        this.seguradoFormGroup.get('dadosPessoais.tipo')!.value;
 
       switch (tipoSegurado) {
         case 'PF': {
           result = {
             tipo: tipoSegurado,
             data: {
-              name: this.seguradoFormGroup.value.name!,
-              document: this.seguradoFormGroup.value.document!,
-              birthDate: this.seguradoFormGroup.value.dataNascimento!,
+              name: this.seguradoFormGroup.get('dadosPessoais.name')!.value,
+              document: this.seguradoFormGroup.get('dadosPessoais.document')!
+                .value,
+              birthDate: this.seguradoFormGroup.get('dadosPessoais.birthDate')!
+                .value,
             },
           };
           break;
@@ -125,8 +144,9 @@ export class SeguradosFormComponent {
           result = {
             tipo: tipoSegurado,
             data: {
-              name: this.seguradoFormGroup.value.name!,
-              document: this.seguradoFormGroup.value.document!,
+              name: this.seguradoFormGroup.get('dadosPessoais.name')!.value!,
+              document: this.seguradoFormGroup.get('dadosPessoais.document')!
+                .value,
             },
           };
           break;
@@ -135,7 +155,20 @@ export class SeguradosFormComponent {
           throw Error('Invalid tipo segurado option');
         }
       }
+      console.log(result);
       this.dialogRef.close(result);
     }
+  }
+
+  getErrorMessage(formGroup: string, field: string) {
+    if (
+      this.seguradoFormGroup.get(formGroup)?.get('field')?.hasError('required')
+    ) {
+      return 'O campo é obrigatorio';
+    }
+
+    return this.seguradoFormGroup.get(field)?.hasError('email')
+      ? 'Não é um e-mail valido'
+      : '';
   }
 }

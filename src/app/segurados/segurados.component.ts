@@ -103,7 +103,7 @@ export class SeguradosComponent implements OnInit {
   onAdd() {
     const dialogRef = this.dialog.open(SeguradosFormComponent, {
       maxWidth: '75vw',
-      maxHeight: '100vh',
+      height: '58vh',
     });
 
     dialogRef.afterClosed().subscribe((result: FormResult) => {

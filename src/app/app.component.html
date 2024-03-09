@@ -5,10 +5,21 @@
     </button>
     <span>Galaxy</span>
   </div>
-  <button mat-icon-button class="user-button">
+  <button mat-icon-button class="user-button" [matMenuTriggerFor]="menu">
     <mat-icon>person</mat-icon>
   </button>
 </mat-toolbar>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item>
+    <mat-icon>manage_accounts</mat-icon>
+    <span>Dados do Usuário</span>
+  </button>
+  <mat-divider> </mat-divider>
+  <button mat-menu-item>
+    <mat-icon>logout</mat-icon>
+    <span>Sair</span>
+  </button>
+</mat-menu>
 <mat-drawer-container class="sidenav-container">
   <mat-drawer #drawer mode="side" opened class="sidenav">
     <mat-nav-list>
@@ -23,7 +34,7 @@
     </mat-nav-list>
   </mat-drawer>
   <mat-drawer-content class="sidenav-content">
-    <mat-toolbar>Segurados</mat-toolbar>
+    <mat-toolbar style="height: 6vh">Segurados</mat-toolbar>
     <router-outlet></router-outlet>
   </mat-drawer-content>
 </mat-drawer-container>
